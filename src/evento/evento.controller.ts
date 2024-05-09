@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { EventoService } from './evento.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
@@ -13,13 +13,13 @@ export class EventoController {
   }
 
   @Get()
-  findAll() {
-    return this.eventoService.findAll();
+  async findAll() {
+    return await this.eventoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventoService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.eventoService.findOne(+id);
   }
 
   @Patch(':id')
@@ -28,7 +28,7 @@ export class EventoController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.eventoService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: string) {
+    return await this.eventoService.remove(+id);
   }
 }
