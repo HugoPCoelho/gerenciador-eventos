@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { LocalService } from './local.service';
 import { CreateLocalDto } from './dto/create-local.dto';
 import { UpdateLocalDto } from './dto/update-local.dto';
@@ -13,13 +13,13 @@ export class LocalController {
   }
 
   @Get()
-  findAll() {
-    return this.localService.findAll();
+  async findAll() {
+    return await this.localService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.localService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.localService.findOne(+id);
   }
 
   @Patch(':id')
@@ -28,7 +28,7 @@ export class LocalController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.localService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: string) {
+    return await this.localService.remove(+id);
   }
 }

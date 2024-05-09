@@ -8,22 +8,31 @@ export class LocalService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createLocalDto: CreateLocalDto) {
-    return 'This action adds a new local';
+    return this.prisma.local.create({
+      data: createLocalDto
+    });
   }
 
-  findAll() {
-    return `This action returns all local`;
+  async findAll() {
+    return this.prisma.local.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} local`;
+    return this.prisma.local.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateLocalDto: UpdateLocalDto) {
-    return `This action updates a #${id} local`;
+    return this.prisma.local.update({
+      where: { id },
+      data: updateLocalDto
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} local`;
+  async remove(id: number) {
+    return await this.prisma.local.delete({
+      where: { id },
+    });
   }
 }
