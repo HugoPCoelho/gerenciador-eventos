@@ -1,73 +1,186 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Descrição
+Nessa atividade foi criado o backend de uma plataforma web de gerenciamento de eventos culturais usando Node.js, Prisma e um banco de dados SQL.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Tecnologias utilizadas
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+ - **NestJS:** Um Framework progressivo Node.js para construir aplicativos do lado do servidor eficientes, confiáveis ​​e escaláveis.
+ - **Prisma:** Um kit de ferramentas open-source de banco de dados que facilita o raciocínio sobre seus dados e como você interage com eles.
+ - **PostgreSQL:** Um poderoso sistema de banco de dados objeto-relacional open-source.
+ - **Docker:** Uma plataforma aberta para desenvolver, enviar e executar aplicativos. O Docker permite separar seus aplicativos de sua infraestrutura para que você possa entregar softwares rapidamente.
+ - **Docker-compose:** Uma ferramenta usada para definir e executar aplicativos de vários contêineres do Docker.
+ - **Swagger:** Uma ferramenta para projetar, construir e documentar RESTful APIs.
+ - **TypeScript:** Uma linguagem de programação de código aberto desenvolvida pela Microsoft. É um superconjunto sintático estrito de JavaScript e adiciona tipagem estática opcional à linguagem.
 
-## Description
+## Pré-requisitos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+O primeiro passo é garantir que você tenha instalado o NodeJS na versão 21 ou superior, assim como o Docker e o docker-compose. Os passos seguintes estão descritos abaixo:
 
-## Installation
-
+Criar na raiz do projeto o arquivo .env como exemplo abaixo:
 ```bash
-$ npm install
+DATABASE_URL="postgres://eventos:EventosPassword@localhost:5432/eventos"
 ```
 
-## Running the app
-
+Instalar npx para a execução de alguns comandos:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install -g npx
 ```
 
-## Test
-
+Instalar as dependências do projeto:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Support
+Iniciar o banco de dados utilizando o Docker:
+```bash
+docker-compose up -d
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Executar a Migration para criação das tabelas:
+```bash
+npx prisma migrate dev --name init
+```
 
-## Stay in touch
+Executar um seed no banco de dados para popular com dados iniciais:
+```bash
+npx prisma db seed
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Executando a aplicação
 
-## License
+```bash
+npm run start:dev
+```
 
-Nest is [MIT licensed](LICENSE).
+## Usando a API
+
+Toda esta documentada utilizando Swagger e pode ser acessado pela URL: http://localhost:3000/api
+
+Como exemplo de uso da API podemos executar os seguintes exemplos:
+
+### Categoria:
+
+**Criar uma nova categoria**
+
+```json
+POST /api/categoria
+{
+  "nome": "Jogos"
+}
+```
+**Pesquisar todas as categorias**
+
+```json
+GET /api/categoria
+```
+
+**Pesquisar as categorias por Id**
+
+```json
+GET /api/categoria/{id}
+```
+
+**Editar uma categoria por Id**
+
+```json
+PATCH /api/categoria/{id}
+{
+  "nome": "Games"
+}
+```
+**Deletar uma categoria por ID**
+
+```json
+DELETE /api/categoria/{id}
+```
+
+---
+### Local:
+
+**Criar um novo local**
+
+```json
+POST /api/local
+{
+  "endereco": "Rua aleatória, 123",
+  "cep": "12345-678",
+  "bairro": "Bairro aleatório",
+  "estado": "Aleatórilandia"
+}
+```
+
+**Pesquisar todos os locais**
+
+```json
+GET /api/local
+```
+
+**Pesquisar os locais por Id**
+
+```json
+GET /api/local/{id}
+```
+
+**Editar um local**
+
+```json
+PATCH /api/local/{id}
+{
+  "endereco": "Rua nova, 123",
+  "cep": "87654-321",
+  "bairro": "Bairro novo",
+  "estado": "Noviça"
+}
+```
+
+**Deletar um local por ID**
+
+```json
+DELETE /api/local/{id}
+```
+
+---
+### Evento:
+
+**Criar um novo evento**
+
+```json
+POST /api/evento
+{
+  "nome": "Nome evento",
+  "descricao": "Descricao Evento",
+  "data": "2024-05-10T10:00:00Z",
+  "idCategoria": 1,
+  "idLocal": 1
+}
+```
+
+**Pesquisar todos os eventos**
+
+```json
+GET /api/evento
+```
+
+**Pesquisar os eventos por Id**
+
+```json
+GET /api/evento/{id}
+```
+
+**Editar um evento**
+
+```json
+PATCH /api/evento/{id}
+{
+  "nome": "Nome novo",
+  "descricao": "Descricao nova",
+  "data": "2024-06-10T08:00:00Z",
+  "idCategoria": 2,
+  "idLocal": 2
+}
+```
+
+**Deletar um evento por ID**
+
+```json
+DELETE /api/evento/{id}
+```
